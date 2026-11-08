@@ -276,6 +276,10 @@ a {
   :root {
     --pad-x: 1rem;
   }
+  /* One column on phones: the 12-column grid's 11 gaps alone are 264px. */
+  .grid {
+    grid-template-columns: minmax(0, 1fr);
+  }
   .rail {
     display: none;
   }

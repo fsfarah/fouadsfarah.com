@@ -6,8 +6,9 @@ export default defineConfig({
   output: 'static',
   trailingSlash: 'ignore',
   build: {
-    // Keep CSS in files so the Content-Security-Policy needs no inline-style hashes.
-    inlineStylesheets: 'never',
+    // Inline the (small) CSS: no render-blocking stylesheet requests before first paint.
+    // The security-headers integration adds each inline <style> block's hash to the CSP.
+    inlineStylesheets: 'always',
   },
   vite: {
     build: {
