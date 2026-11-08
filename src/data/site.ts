@@ -68,6 +68,16 @@ export const email = {
   tld: 'com',
 } as const;
 
+/**
+ * Cloudflare Web Analytics (cookieless). The token is public by design: it is sent
+ * to every visitor in the page source. The CSP in integrations/security-headers.mjs
+ * allows its script and reporting hosts.
+ */
+export const analytics = {
+  script: 'https://static.cloudflareinsights.com/beacon.min.js',
+  token: 'ea6fe3c603ba4621be8093945190fc82',
+} as const;
+
 export const links = {
   linkedin: { label: 'LinkedIn', href: 'https://www.linkedin.com/in/fouad-s-farah' },
   zima: { label: 'zima.cloud', href: 'https://zima.cloud' },

@@ -41,11 +41,12 @@ export default function securityHeaders() {
 
         const csp = [
           "default-src 'self'",
-          `script-src 'self' ${[...scripts].join(' ')}`.trim(),
+          // Cloudflare Web Analytics: its script, and the endpoint it reports visits to.
+          `script-src 'self' ${[...scripts].join(' ')} https://static.cloudflareinsights.com`,
           `style-src 'self' ${[...styles].join(' ')}`.trim(),
           "img-src 'self'",
           "font-src 'self'",
-          "connect-src 'self'",
+          "connect-src 'self' https://cloudflareinsights.com",
           "object-src 'none'",
           "base-uri 'self'",
           "form-action 'none'",
