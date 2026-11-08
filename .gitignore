@@ -12,3 +12,6 @@ dist/
 # Misc
 *.log
 .DS_Store
+
+# Generated Worker types (npm run types)
+worker/worker-configuration.d.ts

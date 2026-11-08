@@ -1,9 +1,22 @@
 {
   "$schema": "node_modules/wrangler/config-schema.json",
   "name": "fouadsfarah-com",
+  "main": "worker/index.ts",
   "compatibility_date": "2026-11-08",
   "assets": {
     "directory": "./dist",
-    "not_found_handling": "404-page"
-  }
+    "binding": "ASSETS",
+    "not_found_handling": "404-page",
+    // The Worker runs before assets only on "/" (curl/wget/HTTPie get the text CV) and on
+    // "/cv". /cv must be listed even though no asset matches it: with not_found_handling,
+    // navigation requests that match no asset get the 404 page without reaching the Worker.
+    "run_worker_first": ["/", "/cv"]
+  },
+  "kv_namespaces": [
+    {
+      // The public CV PDF (key "cv.pdf") and daily download counts ("downloads:YYYY-MM-DD").
+      "binding": "CV",
+      "id": "e5385aecf8474a2cbc6f0d1a7a258675"
+    }
+  ]
 }

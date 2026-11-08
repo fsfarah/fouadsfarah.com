@@ -6,7 +6,9 @@
   "scripts": {
     "dev": "astro dev",
     "build": "astro build",
-    "preview": "astro preview"
+    "preview": "astro preview",
+    "types": "wrangler types worker/worker-configuration.d.ts",
+    "assets": "node scripts/render-assets.mjs"
   },
   "devDependencies": {
     "astro": "^7.4.7",
