@@ -1,0 +1,14 @@
+# Never commit (see CLAUDE.md)
+*.pdf
+.env*
+.dev.vars
+
+# Build and tooling output
+node_modules/
+dist/
+.astro/
+.wrangler/
+
+# Misc
+*.log
+.DS_Store
