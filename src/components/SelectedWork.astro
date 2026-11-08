@@ -1,0 +1,109 @@
+---
+import { cards } from '../data/site';
+---
+
+<section id="work" class="work" aria-labelledby="work-title">
+  <div class="wrap">
+    <div class="grid heading">
+      <span class="rail section-number" aria-hidden="true">01</span>
+      <h2 id="work-title" class="main section-title">Selected work</h2>
+    </div>
+    <div class="grid body">
+      <div class="main cards">
+        {cards.map((card) => (
+          <article class="card">
+            <span class="meta mono">{card.employer} · {card.years}</span>
+            <h3>{card.title}</h3>
+            <p>{card.body}</p>
+            {card.link && (
+              <a class="ext mono" href={card.link.href} target="_blank" rel="noopener">
+                {card.link.label} <span aria-hidden="true">↗</span>
+                <span class="visually-hidden"> (opens in a new tab)</span>
+              </a>
+            )}
+          </article>
+        ))}
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .work {
+    background: var(--band);
+    padding-top: 5.5rem;
+    padding-bottom: 7.5rem;
+    scroll-margin-top: 1.5rem;
+  }
+  .heading {
+    align-items: baseline;
+  }
+  .body {
+    margin-top: 3.5rem;
+  }
+  .cards {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 4rem;
+  }
+  .card {
+    border-top: 3px solid var(--accent);
+    padding-top: 1.5rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.875rem;
+  }
+  .meta {
+    font-size: 0.8125rem;
+    color: var(--band-muted);
+  }
+  h3 {
+    margin: 0;
+    font-size: 1.625rem;
+    line-height: 1.2;
+    font-weight: 600;
+    letter-spacing: -0.015em;
+  }
+  p {
+    margin: 0;
+    font-size: 1.0625rem;
+    line-height: 1.65;
+    color: var(--band-text);
+  }
+  .ext {
+    align-self: flex-start;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.375rem;
+    min-height: 2.75rem;
+    margin-top: -0.375rem;
+    font-size: 0.8125rem;
+    color: var(--accent);
+    text-decoration: underline;
+    text-decoration-thickness: 1px;
+    text-underline-offset: 4px;
+  }
+  .ext:hover {
+    text-decoration-thickness: 2px;
+  }
+
+  @media (max-width: 51.25rem) {
+    .work {
+      padding-top: 3.5rem;
+      padding-bottom: 4.5rem;
+    }
+    .body {
+      margin-top: 2.25rem;
+    }
+    .cards {
+      grid-template-columns: minmax(0, 1fr);
+      gap: 2.5rem;
+    }
+    h3 {
+      font-size: 1.375rem;
+    }
+    p {
+      font-size: 1rem;
+    }
+  }
+</style>

@@ -1,0 +1,167 @@
+---
+import { contact, email, links } from '../data/site';
+---
+
+<section id="contact" class="contact" aria-labelledby="contact-title">
+  <div class="wrap">
+    <div class="grid heading">
+      <span class="rail section-number" aria-hidden="true">03</span>
+      <h2 id="contact-title" class="main section-title">Contact</h2>
+    </div>
+    <div class="grid body">
+      <div class="main stack">
+        <p class="invite">
+          {contact.lines.map((line, i) => (<>{i > 0 && <br />}{line}</>))}
+        </p>
+        <div class="actions">
+          <a class="linkedin" href={links.linkedin.href} target="_blank" rel="noopener">
+            {links.linkedin.label} <span class="arrow" aria-hidden="true">↗</span>
+            <span class="visually-hidden"> (opens in a new tab)</span>
+          </a>
+          <span class="email-row" data-email data-user={email.user} data-domain={email.domain} data-tld={email.tld}>
+            <!-- Without JavaScript this stays in its scraper-resistant form; a script assembles the address. -->
+            <span class="email-text" data-email-text>{email.user} [at] {email.domain}.{email.tld}</span>
+            <button type="button" class="copy mono" data-copy hidden aria-label="Copy email address">Copy</button>
+            <span class="visually-hidden" role="status" aria-live="polite" data-copy-status></span>
+          </span>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .contact {
+    background: var(--banner-bg);
+    color: var(--banner-text);
+    padding-top: 5.5rem;
+    padding-bottom: 6.5rem;
+    scroll-margin-top: 1.5rem;
+  }
+  .contact :global(.section-number) {
+    color: var(--banner-accent);
+  }
+  .contact :focus-visible {
+    outline-color: var(--banner-text);
+  }
+  .heading {
+    align-items: baseline;
+  }
+  .body {
+    margin-top: 1.75rem;
+  }
+  .stack {
+    display: flex;
+    flex-direction: column;
+    gap: 1.75rem;
+  }
+  .invite {
+    margin: 0;
+    font-size: 1.1875rem;
+    line-height: 1.5;
+    color: var(--banner-muted);
+  }
+  .actions {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem 3rem;
+  }
+  .linkedin {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    min-height: 2.75rem;
+    font-size: 1.25rem;
+    font-weight: 500;
+    color: var(--banner-text);
+    text-decoration: underline;
+    text-decoration-color: var(--banner-accent);
+    text-decoration-thickness: 2px;
+    text-underline-offset: 6px;
+  }
+  .linkedin:hover {
+    text-decoration-color: var(--banner-text);
+  }
+  .arrow {
+    color: var(--banner-accent);
+  }
+  .email-row {
+    display: inline-flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 0.75rem;
+    min-width: 0;
+  }
+  .email-text {
+    font-size: 1.25rem;
+    font-weight: 500;
+    overflow-wrap: anywhere;
+  }
+  .copy {
+    min-width: 5.75rem;
+    min-height: 2.75rem;
+    padding: 0 0.875rem;
+    font-size: 0.75rem;
+    color: var(--banner-text);
+    background: transparent;
+    border: 1px solid var(--banner-accent);
+    cursor: pointer;
+  }
+  .copy:hover {
+    background: rgba(255, 255, 255, 0.1);
+  }
+
+  @media (max-width: 51.25rem) {
+    .contact {
+      padding-top: 3.5rem;
+      padding-bottom: 4.5rem;
+    }
+    .section-title {
+      font-size: 1.875rem;
+    }
+    .actions {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+</style>
+
+<script>
+  // Assemble the address from its parts at runtime, so it is never in the page source
+  // as one string. Show the Copy button only once that has worked.
+  const row = document.querySelector<HTMLElement>('[data-email]');
+  if (row) {
+    const { user, domain, tld } = row.dataset;
+    const address = `${user}@${domain}.${tld}`;
+    const text = row.querySelector<HTMLElement>('[data-email-text]');
+    const button = row.querySelector<HTMLButtonElement>('[data-copy]');
+    const status = row.querySelector<HTMLElement>('[data-copy-status]');
+    if (text && button) {
+      text.textContent = address;
+      button.hidden = false;
+      let timer: number | undefined;
+      button.addEventListener('click', async () => {
+        try {
+          await navigator.clipboard.writeText(address);
+        } catch {
+          // Fallback: select the text so it can be copied by hand.
+          const range = document.createRange();
+          range.selectNodeContents(text);
+          const sel = window.getSelection();
+          sel?.removeAllRanges();
+          sel?.addRange(range);
+          if (status) status.textContent = 'Select the address and copy it';
+          return;
+        }
+        button.textContent = '✓ Copied';
+        if (status) status.textContent = 'Email address copied';
+        window.clearTimeout(timer);
+        timer = window.setTimeout(() => {
+          button.textContent = 'Copy';
+          if (status) status.textContent = '';
+        }, 2000);
+      });
+    }
+  }
+</script>

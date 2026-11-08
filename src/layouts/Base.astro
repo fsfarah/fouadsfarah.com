@@ -1,0 +1,50 @@
+---
+import '../styles/global.css';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import { site } from '../data/site';
+
+interface Props {
+  title?: string;
+  description?: string;
+  /** Path for the canonical URL, e.g. "/". */
+  path?: string;
+  noindex?: boolean;
+  footerRule?: boolean;
+}
+
+const { title = site.title, description = site.description, path = '/', noindex = false, footerRule = false } = Astro.props;
+const canonical = new URL(path, site.url).href;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link rel="canonical" href={canonical} />
+    {noindex && <meta name="robots" content="noindex" />}
+    <meta name="color-scheme" content="light dark" />
+    <!-- Apply a saved theme before first paint, so there is no flash of the wrong theme. -->
+    <script is:inline>
+      (function () {
+        var r = document.documentElement;
+        r.classList.add('js');
+        try {
+          var t = localStorage.getItem('theme');
+          if (t === 'light' || t === 'dark') r.setAttribute('data-theme', t);
+        } catch (e) {}
+      })();
+    </script>
+  </head>
+  <body>
+    <a class="skip-link" href="#content">Skip to content</a>
+    <Header />
+    <main id="content">
+      <slot />
+    </main>
+    <Footer rule={footerRule} />
+  </body>
+</html>

@@ -1,0 +1,53 @@
+---
+import { site, footer } from '../data/site';
+
+interface Props {
+  rule?: boolean;
+}
+const { rule = false } = Astro.props;
+---
+
+<footer class:list={['site-footer', { rule }]}>
+  <div class="wrap row mono">
+    <span>© 2026 {site.name}</span>
+    <span class="sep" aria-hidden="true">·</span>
+    <span class="piano">{footer.piano}</span>
+    <span>Updated {site.updated}</span>
+  </div>
+</footer>
+
+<style>
+  .site-footer.rule {
+    border-top: 1px solid var(--rule);
+  }
+  .row {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    gap: 1rem;
+    padding-block: 1.75rem;
+    font-size: 0.75rem;
+    color: var(--muted);
+  }
+  .sep {
+    display: none;
+  }
+  @media (max-width: 51.25rem) {
+    .row {
+      justify-content: flex-start;
+      gap: 0.5rem;
+    }
+    /* Phone footer: the piano line, then "© 2026 Fouad Farah · Updated Oct 2026". */
+    .piano {
+      order: -1;
+      flex-basis: 100%;
+    }
+    .sep {
+      display: inline;
+      order: 1;
+    }
+    .row span:last-child {
+      order: 2;
+    }
+  }
+</style>

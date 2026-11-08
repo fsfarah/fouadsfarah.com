@@ -1,13 +1,14 @@
 ---
+import Base from '../layouts/Base.astro';
+import Hero from '../components/Hero.astro';
+import SelectedWork from '../components/SelectedWork.astro';
+import Experience from '../components/Experience.astro';
+import Contact from '../components/Contact.astro';
 ---
-<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Fouad Farah · Senior Software Engineer</title>
-  </head>
-  <body>
-    <main><h1>Fouad Farah</h1></main>
-  </body>
-</html>
+
+<Base>
+  <Hero />
+  <SelectedWork />
+  <Experience />
+  <Contact />
+</Base>
