@@ -44,7 +44,7 @@ export const site = {
   location: 'Beirut, Lebanon · Remote',
   locationParts: { city: 'Beirut', country: 'Lebanon', countryCode: 'LB' },
   /** Month shown in the footer; set at launch. */
-  updated: 'Oct 2026',
+  updated: 'Nov 2026',
 } as const;
 
 /** Years of experience: the CV counts from May 2010. Change "over 15" here only. */
