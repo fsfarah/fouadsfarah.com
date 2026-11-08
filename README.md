@@ -12,4 +12,6 @@ npm run build   # static build into dist/
 
 The code is released under the [MIT licence](LICENSE).
 
+The fonts in `public/fonts/` (Schibsted Grotesk and IBM Plex Mono) are third-party and licensed under the SIL Open Font License 1.1; their licence texts are next to them.
+
 The MIT licence does **not** cover my writing, CV content, social image or favicon. Those are © 2026 Fouad Farah, all rights reserved, and are not licensed for reuse.

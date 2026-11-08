@@ -12,6 +12,7 @@ import { cards } from '../data/site';
       <div class="main cards">
         {cards.map((card) => (
           <article class="card">
+            <span class="rule" aria-hidden="true"></span>
             <span class="meta mono">{card.employer} · {card.years}</span>
             <h3>{card.title}</h3>
             <p>{card.body}</p>
@@ -47,11 +48,53 @@ import { cards } from '../data/site';
     gap: 4rem;
   }
   .card {
-    border-top: 3px solid var(--accent);
-    padding-top: 1.5rem;
+    position: relative;
+    padding-top: 1.6875rem;
     display: flex;
     flex-direction: column;
     gap: 0.875rem;
+  }
+  /* A border (not a background) so it also prints. Fully drawn by default. */
+  .rule {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    border-top: 3px solid var(--accent);
+    transform-origin: left center;
+  }
+  @keyframes draw-rule {
+    from {
+      transform: scaleX(0);
+    }
+    to {
+      transform: scaleX(1);
+    }
+  }
+  /* Scroll-driven: the card (not the 3px rule) is the timeline subject, so the
+     rule draws over a real stretch of scrolling. The timeline is set in its own,
+     more specific rule: the CSS minifier would otherwise fold it into the
+     `animation` shorthand, which doesn't accept a timeline, and Chrome would
+     drop the whole declaration. */
+  @supports (animation-timeline: view()) {
+    @media (prefers-reduced-motion: no-preference) {
+      .card {
+        view-timeline-name: --card;
+      }
+      .rule {
+        animation: draw-rule linear both;
+      }
+      .card .rule {
+        animation-timeline: --card;
+        animation-range: entry 20% cover 40%;
+      }
+    }
+  }
+  @media print {
+    .rule {
+      animation: none;
+      transform: none;
+    }
   }
   .meta {
     font-size: 0.8125rem;
@@ -85,6 +128,11 @@ import { cards } from '../data/site';
   }
   .ext:hover {
     text-decoration-thickness: 2px;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .ext {
+      transition: text-decoration-thickness 0.2s ease;
+    }
   }
 
   @media (max-width: 51.25rem) {

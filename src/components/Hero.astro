@@ -3,7 +3,7 @@ import { site, hero } from '../data/site';
 ---
 
 <section class="hero" aria-labelledby="hero-title">
-  <div class="dot-field" aria-hidden="true"></div>
+  <div class="dot-field" aria-hidden="true"><div class="dot-sweep"></div></div>
   <div class="wrap grid content">
     <div class="rail section-number" aria-hidden="true">00</div>
     <div class="main">
@@ -102,6 +102,11 @@ import { site, hero } from '../data/site';
   .cv:hover {
     text-decoration-thickness: 2px;
   }
+  @media (prefers-reduced-motion: no-preference) {
+    .cv {
+      transition: text-decoration-thickness 0.2s ease;
+    }
+  }
 
   @media (max-width: 51.25rem) {
     .hero {
@@ -133,3 +138,34 @@ import { site, hero } from '../data/site';
     }
   }
 </style>
+
+<script>
+  // Replays the dot-grid sweep when the visitor returns to the very top of the page
+  // after the hero has been fully scrolled out, so the whole sweep is in view.
+  // The sweep itself is CSS; this only restarts it. Nothing happens with reduced
+  // motion (the CSS defines no animation then).
+  const hero = document.querySelector<HTMLElement>('.hero');
+  const sweep = hero?.querySelector<HTMLElement>('.dot-sweep');
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)');
+
+  if (hero && sweep && 'IntersectionObserver' in window) {
+    let armed = false;
+    new IntersectionObserver(([entry]) => {
+      if (!entry.isIntersecting) armed = true;
+    }).observe(hero);
+
+    window.addEventListener(
+      'scroll',
+      () => {
+        if (!armed || window.scrollY > 0) return;
+        armed = false;
+        if (reduce.matches) return;
+        sweep.classList.add('replay');
+        sweep.style.animation = 'none';
+        void sweep.offsetWidth; // flush styles so the animation starts again
+        sweep.style.animation = '';
+      },
+      { passive: true },
+    );
+  }
+</script>

@@ -28,7 +28,7 @@ Git history is permanent and this repository is public.
 - **Astro** with static output, **TypeScript**, **vanilla CSS** with custom properties for the design tokens.
 - **Hosting:** a Cloudflare Worker with static assets, deployed by Workers Builds on every push to `main`. The same Worker serves `/cv` (PDF download plus a privacy-friendly counter) and the plain-text CV for `curl`.
 - **Analytics:** Cloudflare Web Analytics only (no cookies).
-- No client framework, no UI component libraries, no CSS framework. JavaScript only for the theme switch, the command palette, copy-to-clipboard and the analytics script. Ask before adding any dependency.
+- No client framework, no UI component libraries, no CSS framework. JavaScript only for the theme switch, the command palette, copy-to-clipboard, replaying the hero sweep and the analytics script. Ask before adding any dependency.
 
 ## Commands
 
@@ -49,7 +49,7 @@ Fill these in as the project takes shape:
 - Static-first and fast: plain HTML and CSS reach the browser.
 - Works without JavaScript; the page is usable and every action has a visible link.
 - Accessible: semantic HTML, visible focus, touch targets of at least 44px, the native `<dialog>` for the palette, no sideways scrolling at 320px wide or 400% zoom.
-- Motion is CSS only, and everything is still under `prefers-reduced-motion: reduce`.
+- Motion is CSS; the only script is a small observer that replays the hero sweep. Everything is still under `prefers-reduced-motion: reduce`.
 - Correct in both themes, on phones and desktops, and in print.
 
 ## Working style
