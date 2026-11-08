@@ -113,6 +113,28 @@ export const footer = {
   piano: "When I'm not at one keyboard, I'm usually at another: the piano.",
 } as const;
 
+/** /llms.txt (final copy). No email address, no employer named, no scale numbers. */
+export const llms = {
+  summary:
+    'Senior Software Engineer (Full-Stack & Systems Engineering) based in Beirut, Lebanon, working remotely. Over 15 years building and running production software across web, infrastructure and networking.',
+  body: 'He co-founded ZIMA Cloud (2019–2023) and led all of its engineering: a multi-tenant SaaS built from scratch and used by internet service providers on every continent. Before that, at Firenode (2012–2019), he extended an on-premises ISP management product and made its installs and upgrades routine. Everything here matches his CV; the Markdown CV below has the full detail.',
+  cv: [
+    { label: 'CV in Markdown', path: '/resume.md', note: 'roles, dates, technologies, skills, education and languages' },
+    { label: 'CV as PDF', path: '/cv', note: 'the downloadable version' },
+  ],
+  contact: [
+    { label: 'LinkedIn', href: 'https://www.linkedin.com/in/fouad-s-farah', note: 'the best way to get in touch' },
+    { label: 'Website', href: 'https://fouadsfarah.com', note: 'the email address is on the page' },
+  ],
+  optional: [
+    { label: 'Home page', href: 'https://fouadsfarah.com/', note: 'selected work, experience and contact' },
+    { label: 'ZIMA Cloud', href: 'https://zima.cloud', note: 'the platform he co-founded, still in daily use' },
+  ],
+} as const;
+
+/** Job title for structured data (the headline's first half). */
+export const jobTitle = 'Senior Software Engineer';
+
 export const notFound = {
   title: "This page doesn't exist.",
   body: 'The address may be mistyped, or the page may have moved. Everything on this site lives on a single page.',

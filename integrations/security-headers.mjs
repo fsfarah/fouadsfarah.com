@@ -29,7 +29,8 @@ export default function securityHeaders() {
         for (const file of await htmlFiles(root)) {
           const html = await readFile(file, 'utf8');
           // Inline <script> blocks (no src) and inline <style> blocks.
-          for (const m of html.matchAll(/<script(?![^>]*\bsrc=)[^>]*>([\s\S]*?)<\/script>/g)) {
+          // JSON-LD and other data blocks don't execute, so they need no hash.
+          for (const m of html.matchAll(/<script(?![^>]*\bsrc=)(?![^>]*application\/ld\+json)[^>]*>([\s\S]*?)<\/script>/g)) {
             if (m[1].trim()) scripts.add(sha256(m[1]));
           }
           for (const m of html.matchAll(/<style[^>]*>([\s\S]*?)<\/style>/g)) {
@@ -69,6 +70,14 @@ export default function securityHeaders() {
 # Fonts aren't hashed: rename the file if a font is ever updated.
 /fonts/*
   Cache-Control: public, max-age=31536000, immutable
+
+# Machine-readable text, generated from the data file.
+/resume.md
+  Content-Type: text/markdown; charset=utf-8
+/llms.txt
+  Content-Type: text/plain; charset=utf-8
+/robots.txt
+  Content-Type: text/plain; charset=utf-8
 `;
         await writeFile(path.join(root, '_headers'), headers);
         logger.info(`_headers written (${scripts.size} inline script hash, ${styles.size} inline style hash).`);
