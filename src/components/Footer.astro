@@ -12,7 +12,7 @@ const { rule = false } = Astro.props;
     <span>© 2026 {site.name}</span>
     <span class="sep" aria-hidden="true">·</span>
     <span class="piano">{footer.piano}</span>
-    <span>Updated {site.updated}</span>
+    <span>Updated {site.updated}<span class="kbd-hint" aria-hidden="true"> · ⌘K</span></span>
   </div>
 </footer>
 
@@ -29,8 +29,15 @@ const { rule = false } = Astro.props;
     font-size: 0.75rem;
     color: var(--muted);
   }
-  .sep {
+  .sep,
+  .kbd-hint {
     display: none;
+  }
+  /* "· ⌘K" only where the palette is offered: JavaScript plus a fine pointer. */
+  @media (hover: hover) and (pointer: fine) {
+    :global(.js) .kbd-hint {
+      display: inline;
+    }
   }
   @media (max-width: 51.25rem) {
     .row {
